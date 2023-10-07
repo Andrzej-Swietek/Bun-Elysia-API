@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { PrismaClient } from "@prisma/client";
+import { jwt } from '@elysiajs/jwt'
 
 // Controllers
 import { auth, users } from '@controllers/index'
@@ -9,13 +10,19 @@ import { auth, users } from '@controllers/index'
 const database_setup = (app: Elysia) => app.decorate('db', new PrismaClient())
 
 const PORT = process.env.PORT || 3000;
-
+const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
 const app = new Elysia()
   .use(swagger())
   .use(cors({
     origin: /\*$/
   }))
+  .use(
+    jwt({
+        name: 'jwt',
+        secret: JWT_SECRET
+    })
+  )
   .use(database_setup)
   .derive(({ request: { headers }, store }) => {
     return {
