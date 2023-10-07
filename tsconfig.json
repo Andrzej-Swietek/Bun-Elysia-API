@@ -98,6 +98,12 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+    "baseUrl": "./", 
+    "paths": {
+      "@controllers/*": ["src/controllers/*"], // Path to your controllers
+      "@models/*": ["src/models/*"],           // Path to your models
+      "@utils/*": ["src/utils/*"],             // Path to your utility modules
+    },
   }
 }
