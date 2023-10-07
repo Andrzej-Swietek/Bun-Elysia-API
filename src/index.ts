@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { jwt } from '@elysiajs/jwt'
 
 // Controllers
-import { auth, users, profiles } from '@controllers/index'
+import { auth, users, profiles, products, carts } from '@controllers/index'
 
 const database_setup = (app: Elysia) => app.decorate('db', new PrismaClient())
 
@@ -37,6 +37,12 @@ const app = new Elysia()
 
   // Profile
   .use(profiles)
+
+  // Products
+  .use(products)
+
+  // Cart
+  .use(carts)
 
   .get("/", () => "Bun + Elysia API")
   .get('/id/:id', ({ params: { id } }) => ({param_id: id}))
