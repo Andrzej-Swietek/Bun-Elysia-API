@@ -45,6 +45,7 @@ const app = new Elysia()
   .get("/", () => "Bun + Elysia API")
   .get('/id/:id', ({ params: { id } }) => ({param_id: id}))
   .get('/route/*', () => 'all Routes after /route')
+  .get('/pagination-test', ({pagination}) => pagination)
   .onError(({ code, error }) => {
     return new Response(error.toString())
   })

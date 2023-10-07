@@ -1,4 +1,5 @@
-import Elysia from "elysia";
+import { password } from "bun";
+import {Elysia, t} from "elysia";
 
 export const users = new Elysia({ prefix: '/users' })
             .get("/all", async ({ db }) => {
@@ -30,14 +31,25 @@ export const users = new Elysia({ prefix: '/users' })
             })
             .post("/", async ({ body, db }) => {
                 try {
+                    const hashedPassword = await Bun.password.hash(body.password);
                     const newUser = await db.user.create({
-                        data: body,
+                        data: {
+                            email: body.email,
+                            name: body.name,
+                            password: hashedPassword,
+                        },
                     });
 
                     return newUser;
                 } catch (error) {
                     throw error;
                 }
+            },{
+                body: t.Object({
+                    email: t.String(),
+                    name: t.String(),
+                    password: t.String()
+                })
             })
             .put("/:id", async ({ params, body, db }) => {
                 try {

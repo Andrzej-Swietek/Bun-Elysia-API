@@ -30,4 +30,4 @@ function searchParams(url: string, paramName: string): string | null {
     const paramValue = searchParams.get(paramName);
   
     return paramValue !== null ? paramValue : null;
-  }
+}
