@@ -6,6 +6,7 @@ import { jwt } from '@elysiajs/jwt'
 
 // Controllers
 import { auth, users, profiles, products, carts } from '@controllers/index'
+import { paginate } from "./utils";
 
 const database_setup = (app: Elysia) => app.decorate('db', new PrismaClient())
 
@@ -29,20 +30,17 @@ const app = new Elysia()
         authorization: headers.get('Authorization')
     }
   })
-  // Authentication
-  .use(auth)
+  .derive(paginate)
 
-  // Users
-  .use(users)
+  .use(auth)      // Authentication
 
-  // Profile
-  .use(profiles)
+  .use(users)     // Users
 
-  // Products
-  .use(products)
+  .use(profiles)  // User Profile
 
-  // Cart
-  .use(carts)
+  .use(products)  // Products
+
+  .use(carts)    // Cart
 
   .get("/", () => "Bun + Elysia API")
   .get('/id/:id', ({ params: { id } }) => ({param_id: id}))
